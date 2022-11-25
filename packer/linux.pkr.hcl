@@ -26,7 +26,7 @@ build {
   sources = ["source.azure-arm.nginx"]
 
   provisioner "shell" {
-    script = "/packer/script.sh"
+    script = "packer/script.sh"
   }
 
 }
