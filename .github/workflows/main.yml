@@ -1,0 +1,39 @@
+---
+name: CI-CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  packer:
+    name: Run Packer
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Azure Login
+      uses: Azure/login@v1.4.6
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}  
+
+    - name: Validate Packer Template
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: validate
+        arguments: -syntax-only
+        target: packer/linux.pkr.hcl
+
+    - name: Build Packer Image
+      uses: hashicorp/packer-github-actions@master
+      with:
+        command: build
+        arguments: -color=false -on-error=abort
+        target: packer/linux.pkr.hcl
+      env:
+        ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+        
