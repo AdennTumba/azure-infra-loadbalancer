@@ -41,7 +41,7 @@ variable "image_publisher" {
 variable "image_sku" {
   type        = string
   description = ""
-  default     = "22.04-LTS"
+  default     = "18.04-LTS"
 }
 
 variable "managed_image_name" {
