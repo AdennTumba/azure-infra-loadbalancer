@@ -1,5 +1,6 @@
 #!/bin/bash
-sudo apt-get update -y ;
+sudo apt-get update;
 sudo apt-get install nginx -y;
 sudo systemctl enable nginx;
-sudo systemctl start nginx
+sudo systemctl start nginx;
+/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync
